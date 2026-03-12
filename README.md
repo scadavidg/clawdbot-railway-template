@@ -9,6 +9,7 @@ This repo packages **OpenClaw** for Railway with a small **/setup** web wizard s
 - Persistent state via **Railway Volume** (so config/credentials/memory survive redeploys)
 - One-click **Export backup** (so users can migrate off Railway later)
 - **Import backup** from `/setup` (advanced recovery)
+- **Bundled skill:** `perfume_product_scraper` — copied into `/data/workspace/skills/` on first run (scrape perfume product pages to Medusa JSON)
 
 ## How it works (high level)
 

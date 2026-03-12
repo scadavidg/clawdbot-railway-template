@@ -1,0 +1,10 @@
+# Minimal: HTML parsing (required)
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+
+# Recommended: faster HTTP with retries
+httpx>=0.25.0
+
+# Optional: headless browser for JS-rendered pages
+# playwright>=1.40.0
+# Then: playwright install chromium

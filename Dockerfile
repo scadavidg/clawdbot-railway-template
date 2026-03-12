@@ -76,6 +76,13 @@ COPY --from=openclaw-build /openclaw /openclaw
 RUN printf '%s\n' '#!/usr/bin/env bash' 'exec node /openclaw/dist/entry.js "$@"' > /usr/local/bin/openclaw \
   && chmod +x /usr/local/bin/openclaw
 
+# Default skills (e.g. perfume_product_scraper) copied to workspace on first run via railway-entrypoint.sh
+COPY skills /app/default-skills
+
+# Entrypoint: copy default-skills to /data/workspace/skills if missing, then run tini + server
+COPY railway-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
+RUN chmod +x /usr/local/bin/railway-entrypoint.sh
+
 COPY src ./src
 
 # The wrapper listens on $PORT.
@@ -84,6 +91,6 @@ COPY src ./src
 # If we force a different port, deployments can come up but the domain will route elsewhere.
 EXPOSE 8080
 
-# Ensure PID 1 reaps zombies and forwards signals.
-ENTRYPOINT ["tini", "--"]
+# Ensure default-skills are in workspace, then run tini + server (PID 1 reaps zombies).
+ENTRYPOINT ["/usr/local/bin/railway-entrypoint.sh", "tini", "--"]
 CMD ["node", "src/server.js"]
